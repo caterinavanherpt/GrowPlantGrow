@@ -24,31 +24,40 @@ import firebase from './firebase.js';
 
 //firebase storage references
 const dbRef = firebase.database().ref('/plants');
-const dbStorageRef = firebase.storage().ref('/plants');
+const dbStorageRef = firebase.storage().ref('/plantPictures');
 
 const Nav = () => {
 	return (
 		<nav className='nav'>
-			<h1>Plant Stuff</h1>
-			<h2>All Plants</h2>
+			<h1>Grow<br/><span>Plant</span><br/>Grow</h1>
 			<button>Logout</button>
 		</nav>
 	)
 }
 
-const Display = () => {
+const Display = (props) => {
 	return (
 		<section className='displayPlants'>
-			<h3>Start keeping track of your plants! Add info into the new plant card to get started!</h3>
-			<ul>
-				<li></li>
-			</ul>
+			{props.gardenEmpty ?
+				<h3>Keep track of your plants! <br/> Add plant info and images into the new plant form to get started...</h3>
+			:
+				<ul className="displayPlants__item" onClick={props.handleInfoCardDisplay}>
+					{props.plantsArray.map((plant) => {
+						return (
+							<li key={plant.id}>
+								<img src={plant.firebasePicPath} alt=""/>
+								<h4>{plant.name}</h4>
+							</li>
+						);
+					})}
+				</ul>
+			}
 		</section>
 	)
 }
 
-const PlantInfoCard = (props) => {
-	return (
+const PlantInfoSection = (props) => {
+	let plantInfoCardSection =  (
 		<section className="plantInfoCard">
 			<ul>
 				{props.plantsArray.map((plant) => {
@@ -59,18 +68,19 @@ const PlantInfoCard = (props) => {
 							<p>Watering Requirements: {plant.water}</p>
 							<p>Soil Requirements: {plant.soil}</p>
 							<p>Plant Type: {plant.type}</p>
+							<img src={plant.firebasePicPath} alt="Picture of a plant"/>
+							<button onClick={() => props.removeItem(plant.id)}>Remove this plant from your garden!</button>
 						</li>
 					);
 				})}
 			</ul>
 		</section>
 	)
-}
-
-const Form = (props) => {
-	return (
+	let plantFormSection = (
 		<section className='plantForm'>
-			<form onSubmit={props.handleSubmit} action="">
+			<form onSubmit={props.handleSubmit} action="" method="post">
+				<h2>New Plant Form</h2>
+				<p>Fill out the form below to add a new plant to your garden.</p>
 				<input type="text" name='plantName' placeholder='Enter Plant Name' value={props.plantName} onChange={props.handleChange} />
 				<input type="text" name='plantLight' placeholder='Enter Light Requirements' value={props.plantLight} onChange={props.handleChange} />
 				<input type="text" name='plantWater' placeholder='Enter Water Requirements' value={props.plantWater} onChange={props.handleChange} />
@@ -82,13 +92,22 @@ const Form = (props) => {
 					<option value="vegfru">Veggie or Fruit</option>
 				</select>
 				<label htmlFor="plantPic"> Select a picture of your plant:</label>
-				<input type="file" name="plantPic" accept="image/*"/>
-				<button>Add to garden!</button>
+				<input id="fileItem" type="file" name="plantPic" accept="image/*" value={props.plantPic} onChange={props.handleUpload} />
+				{props.loading ? 
+					<div>You're image is loading</div>
+				: 
+					<button>Add to garden!</button>
+				}
 			</form>
 		</section>
-		
+	)
+	return (
+		<div className="plantInfoSection"> 
+			{props.plantInfoRequest ? plantInfoCardSection : plantFormSection}
+		</div>
 	)
 }
+
 
 class App extends React.Component {
 	constructor() {
@@ -99,11 +118,36 @@ class App extends React.Component {
 			plantWater: '',
 			plantSoil: '',
 			plantType: '',
-			// plantPic: '',
+			plantPic: '',
+			plantUrl: '',
 			plantsArray: [],
+			loading: false, 
+			gardenEmpty: true,
+			plantInfoRequest: false, 
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleUpload = this.handleUpload.bind(this);
+		this.removeItem = this.removeItem.bind(this);
+		this.handleInfoCardDisplay = this.handleInfoCardDisplay.bind(this);
+	}
+	handleUpload(event) {
+		this.setState({
+			plantPic: event.target.value,
+			loading: true,
+		}, () => {
+			const picPath = this.state.plantPic;
+			const picRef = dbStorageRef.child(picPath);
+			const picFile = document.getElementById('fileItem').files[0];
+			picRef.put(picFile).then (() => {
+				picRef.getDownloadURL().then ((url) =>{
+					this.setState({
+						plantUrl: url,
+						loading: false,
+					})
+				});
+			});
+		});
 	}
 	handleSubmit(event) {
 		event.preventDefault();
@@ -113,12 +157,32 @@ class App extends React.Component {
 			water: this.state.plantWater,
 			soil: this.state.plantSoil,
 			type: this.state.plantType,
+			userPicPath: this.state.plantPic,
+			firebasePicPath: this.state.plantUrl,
 		};
 		dbRef.push(newPlant);
+		this.setState ({
+			plantName: '',
+			plantLight: '',
+			plantWater: '',
+			plantSoil: '',
+			plantType: '',
+			plantPic: '',
+		})
 	}
 	handleChange(event) {
 		this.setState({
 			[event.target.name]: event.target.value,
+		})
+	}
+	removeItem(key) {
+		const plantRef = firebase.database().ref(`/plants/${key}`)
+		plantRef.remove();
+	}
+	handleInfoCardDisplay() {
+		// const plantRef = firebase.database().ref(`/plants/${key}`)
+		this.setState({
+			plantInfoRequest: true
 		})
 	}
 	componentDidMount() {
@@ -133,29 +197,45 @@ class App extends React.Component {
 			this.setState({
 				plantsArray: newPlantsArray,
 			});
+			if (newPlantsArray.length > 0) {
+				this.setState({
+					gardenEmpty: false,
+				})
+			} else {
+				this.setState({
+					gardenEmpty: true,
+				})
+			}
 		});
 	}
 	render() {
 		return (
 			<div className='app'>
-				<Nav />
-				<Display />
-				<Form 
+				<Nav 
+					// user={user}
+				/>
+				<Display 
+					handleInfoCardDisplay={this.handleInfoCardDisplay}
+
+					plantsArray={this.state.plantsArray}
+					gardenEmpty={this.state.gardenEmpty}
+				/>
+				<PlantInfoSection
+					removeItem={this.removeItem}
 					handleChange={this.handleChange}
 					handleSubmit={this.handleSubmit}
-					// plantName={this.state.plantName}
-					// plantLight={this.state.plantLight}
-					// plantWater={this.state.plantWater}
-					// plantSoil={this.state.plantSoil}
+					handleUpload={this.handleUpload}
+					handleInfoCardDisplay={this.handleInfoCardDisplay}
 
-				/>
-				<PlantInfoCard 
-					name={this.state.name}
-					light={this.state.light}
-					water={this.state.water}
-					soil={this.state.soil}
-					type={this.state.type}
 					plantsArray={this.state.plantsArray}
+					plantName={this.state.plantName}
+					plantLight={this.state.plantLight}
+					plantWater={this.state.plantWater}
+					plantSoil={this.state.plantSoil}
+					plantType={this.state.plantType}
+					plantPic={this.state.plantPic}
+					loading={this.state.loading}
+					plantInfoRequest={this.state.plantInfoRequest}
 				/>
 			</div>
 		);

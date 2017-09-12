@@ -1,0 +1,39 @@
+.plantInfoSection {
+	width: 50%;
+	float: right;
+}
+
+.plantForm {
+	width: 100%;
+	form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		font-size: 1.7em;
+		padding-top: 20px;
+		h2 {
+			font-size: 2em;
+			color: $mediumgreen;
+			text-transform: uppercase;
+			letter-spacing: 1.5px;
+		}
+		p {
+			font-size: 1.1em;
+			padding: 20px;
+			color: $logolightgreen;
+			font-weight: 200;
+		}
+		input, label, select {
+			margin: 15px;
+			width: 60%;
+		}
+	}
+}
+
+.plantInfoCard {
+	width: 100%;
+	img {
+		max-width: 200px;
+	}
+}

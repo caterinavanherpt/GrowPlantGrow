@@ -1,5 +1,24 @@
 nav {
 	display: flex;
-	justify-content: space-around;
-	padding: 40px;
+	justify-content: space-between;
+	align-items: center;
+	h1 {
+		text-transform: uppercase;
+		color: $mediumgreen;
+		text-align: center; 
+		letter-spacing: 1.5px;
+		line-height: 16px;
+		font-size: 1.5em;
+		padding: 20px;
+		span {
+			font-size: 1.3em;
+			color: $logolightgreen;
+		}
+	}
+	button {
+		margin-right: 50px;
+		// padding-top: 20px;
+		padding: 5px;
+		font-size: 1.3em;
+	}
 }

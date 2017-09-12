@@ -3,25 +3,33 @@
 	float:left;
 	padding: 20px;
 	h3 {
-		padding: 15%;
-		font-size: 2em;
+		margin-top: 30%;
+		margin-right: 10%;
+		margin-left: 10%;
+		padding: 5%;
+		font-size: 2.5em;
 		text-align: center;
 		line-height: 30px;
+		font-weight: 300;
+		color: $mediumgreen;
+		border: 1.5px solid $pink;
 	}
 }
 
-.plantForm {
-	width: 50%;
-	float: right;
-	padding: 10%;
-	form {
-		display: flex;
-		flex-direction: column;
-		font-size: 1.5em;
-		input, label, select {
-			margin: 10px;
-			text-align: center;
-		}
+.displayPlants__item {
+	li {
+		display: inline-block;
+		position: relative;
+		list-style: none;
+	}
+	img {
+		max-width: 50%;
+	}
+	h4 {
+		position: absolute;
+		top: 50%;
 	}
 }
+
+
 
