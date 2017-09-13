@@ -1,7 +1,8 @@
 nav {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
+	// width: 50%;
 	h1 {
 		text-transform: uppercase;
 		color: $mediumgreen;
@@ -9,16 +10,44 @@ nav {
 		letter-spacing: 1.5px;
 		line-height: 16px;
 		font-size: 1.5em;
-		padding: 20px;
+		padding: 20px 0 20px 20px;
 		span {
 			font-size: 1.3em;
 			color: $logolightgreen;
 		}
 	}
-	button {
-		margin-right: 50px;
-		// padding-top: 20px;
-		padding: 5px;
-		font-size: 1.3em;
+	img {
+		height: 80px;
+		margin-top: 15px;
 	}
 }
+
+@media (max-width: 850px) {
+	nav {
+		justify-content: center;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%);
+		height: 150px;
+		h1 {
+			font-size: 3.5em;
+			line-height: 35px;
+		}
+		img {
+			height: 150px;
+		}
+	}
+}
+
+@media (max-width: 600px) {
+	nav {
+		h1 {
+			font-size: 2em;
+			line-height: 20px;
+		}
+		img {
+			height: 90px;
+		}
+	}
+}
+

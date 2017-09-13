@@ -1,35 +1,107 @@
 .displayPlants {
 	width: 50%;
 	float:left;
-	padding: 20px;
+	padding-right: 20px;
+	padding-left: 20px;
+	.background__image {
+		background-image: linear-gradient(45deg, rgba(178, 178, 178, 0.72), rgba(255, 255, 255, 0.76)), url(/public/assets/backgroundPlant.jpg);
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+		width: 100%;
+		border-radius: 8px;
+		height: 90vh;
+		display: flex;
+		align-items: center;
+	}
 	h3 {
-		margin-top: 30%;
 		margin-right: 10%;
 		margin-left: 10%;
 		padding: 5%;
-		font-size: 2.5em;
+		font-size: 2.3em;
 		text-align: center;
 		line-height: 30px;
 		font-weight: 300;
-		color: $mediumgreen;
-		border: 1.5px solid $pink;
+		color: $teal;
+		border: 1.5px solid rgba(255, 166, 158, 0.50);
+		border-radius: 10px;
+		background: rgba(255, 166, 158, 0.50);
 	}
 }
 
 .displayPlants__item {
+	column-count: 2;
+	column-gap: 1px;
 	li {
-		display: inline-block;
+		// display: inline-block;
 		position: relative;
 		list-style: none;
 	}
 	img {
-		max-width: 50%;
+		width: 100%;
+		height: auto;
+		padding: 3px;		
+	}
+	.img__overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: 3px;
+		background: linear-gradient(45deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.76));;
+	}
+	.img__border {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		right: 10px;
+		bottom: 10px;
+		border: 1.5px solid pink;
+	}
+	.img__border:hover {
+		border: 1.5px solid $logolightgreen;
 	}
 	h4 {
 		position: absolute;
 		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		color: $teal;
+		padding: 1%;
+		font-size: 1.8em;
+		padding: 5px;
+		font-weight: 500;
+		letter-spacing: 2px;
 	}
 }
 
+@media (max-width: 850px) {
+	.displayPlants {
+		width: 100%;
+		padding: 0;
+		margin-top: 20px;
+		.background__image {
+			border-radius: 0;
+			height: 100vh;
+		}
+	}
+	.displayPlants__item {
+		column-count: 3;
+		width: 80%;
+		margin: 0 auto;
+	}
+}
+
+@media (max-width: 650px) {
+	.displayPlants {
+		h3 {
+			font-size: 1.8em;
+		}
+	}
+	.displayPlants__item {
+		column-count: 1;
+	}
+}
 
 

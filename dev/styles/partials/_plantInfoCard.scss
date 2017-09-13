@@ -1,39 +1,133 @@
 .plantInfoSection {
 	width: 50%;
 	float: right;
+	padding-bottom: 40px;
 }
 
-.plantForm {
-	width: 100%;
-	form {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+// form styling inspired by https://www.sanwebe.com/2014/08/css-html-forms-designs
+
+
+.plantForm, .plantInfoCard {
+	font-size: 1.7em;
+	max-width: 80%;
+	margin: 0 auto;
+	border-radius: 2px;
+	h2 {
+		font-size: 1.5em;
+		color: $mediumgreen;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
 		text-align: center;
-		font-size: 1.7em;
-		padding-top: 20px;
-		h2 {
-			font-size: 2em;
-			color: $mediumgreen;
-			text-transform: uppercase;
-			letter-spacing: 1.5px;
-		}
-		p {
-			font-size: 1.1em;
-			padding: 20px;
-			color: $logolightgreen;
-			font-weight: 200;
-		}
-		input, label, select {
-			margin: 15px;
-			width: 60%;
-		}
 	}
+	p {
+		font-size: 1.1em;
+		padding: 0px 30px 30px 30px;
+		color: $teal;
+		font-weight: 200;
+		text-align: center;
+	}
+	ul {
+		list-style: none;
+	}
+	li {
+		display: block;
+		padding: 9px;
+		border: 1px solid rgba(114, 114, 114, 0.34);
+		margin-bottom: 30px;
+		border-radius: 3px;
+	}
+	li:last-child {
+		border: none;
+		margin-bottom: 0px;
+		text-align: center;
+	}
+	label, h4 {
+		display: block;
+		float: left;
+		margin-top: -23px;
+		background: #FFFFFF;
+		height: 14px;
+		padding: 2px 5px 2px 5px;
+		color: $logolightgreen;
+		font-weight: 200;
+	}
+	input, textarea, select, h5 {
+		width: 100%;
+		display: block;
+		border: none;
+		outline: none;
+		height: 25px;
+		padding: 3px;
+		color: $teal;
+		font-weight: 200;
+	}
+	span {
+		background: rgba(114, 114, 114, 0.14);
+		display: block;
+		text-align: center;
+		color: $mediumgreen;
+		font-weight: 200;
+		font-size: 0.8em;
+		padding: 5px;
+		margin: 0 -9px -9px -9px;
+	}
+	textarea {
+		resize: none;
+	}
+	.submit__button {
+		padding: 0;
+	}
+	button, li > p {
+		width: 100%;
+		background: $pink;
+		color: $teal;
+		font-weight: 200;
+		border-radius: 3px;
+		border: 1px solid rgba(114, 114, 114, 0.34);
+		padding: 10px;
+	}
+	button:hover {
+		background: pink;
+	}
+
 }
 
 .plantInfoCard {
-	width: 100%;
+	h2 {
+		padding-bottom: 30px;
+	}
+	h5 {
+		height: auto;
+		margin: 5px;
+	}
 	img {
 		max-width: 200px;
+
+	}
+	.newPlantButton {
+		background: $logolightgreen;
+		margin-top: 10px;
+	}
+	.newPlantButton:hover {
+		background: $lightgreen;
+	}
+}
+
+@media (max-width: 850px) {
+	.plantInfoSection {
+		width: 100%;
+		padding-top: 40px;
+	}
+}
+
+@media (max-width: 600px) {
+	.plantInfoSection {
+		h2, p {
+			font-size: 100%;
+		}
+		p {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
 	}
 }
