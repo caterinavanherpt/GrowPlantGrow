@@ -25,9 +25,6 @@ nav {
 @media (max-width: 850px) {
 	nav {
 		justify-content: center;
-		position: absolute;
-		left: 50%;
-		transform: translate(-50%);
 		height: 150px;
 		h1 {
 			font-size: 3.5em;
